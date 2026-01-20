@@ -6,11 +6,15 @@ from lxml import etree
 import time
 import hashlib
 
-# --- ZDE JE SEZNAM IGNOROVANÝCH REPOZITÁŘŮ ---
-IGNORED_REPOS = ["PhysX-3.4", "FaceWorks", "HBAOPlus"]
-# ---------------------------------------------
+# --- NASTAVENÍ IGNOROVÁNÍ ---
+# Zde můžeš ignorovat konkrétní repozitáře
+IGNORED_REPOS = ["PhysX-3.4", "FaceWorks", "HBAOPlus", "Blast"] 
 
-# Fine-grained personal access token with All Repositories access:
+# ZDE VYPIŠ NÁZVY ORGANIZACÍ, KTERÉ CHCEŠ KOMPLETNĚ PŘESKOČIT
+# (Doplň sem přesný název organizace, jak je v URL, např. github.com/NVIDIAGameWorks)
+IGNORED_OWNERS = ["NVIDIAGameWorks", "NVIDIA", "nvidia", "nvidiagameworks"]
+# -----------------------------
+
 HEADERS = {'authorization': 'token '+ os.environ['ACCESS_TOKEN']}
 USER_NAME = os.environ['USER_NAME'] 
 QUERY_COUNT = {'user_getter': 0, 'follower_getter': 0, 'graph_repos_stars': 0, 'recursive_loc': 0, 'graph_commits': 0, 'loc_query': 0}
@@ -87,11 +91,15 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None, add_loc=0, del
 
 
 def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, deletion_total=0, my_commits=0, cursor=None):
-    # --- ZDE JE OCHRANA PROTI PÁDU ---
+    # --- UPRAVENÁ OCHRANA (REPO I ORGANIZACE) ---
     if repo_name in IGNORED_REPOS:
-        print("IGNORUJI: " + repo_name)
+        print(f"IGNORUJI REPO: {repo_name}")
         return 0, 0, 0
-    # ---------------------------------
+    
+    if owner in IGNORED_OWNERS:
+        print(f"IGNORUJI ORG: {owner}/{repo_name}")
+        return 0, 0, 0
+    # --------------------------------------------
 
     print("Počítám: " + repo_name)
     query_count('recursive_loc')
