@@ -107,6 +107,7 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None, add_loc=0, del
 
 
 def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, deletion_total=0, my_commits=0, cursor=None):
+    print("Počítám: " + repo_name)
     """
     Uses GitHub's GraphQL v4 API and cursor pagination to fetch 100 commits from a repository at a time
     """
