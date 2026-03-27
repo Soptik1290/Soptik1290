@@ -385,12 +385,7 @@ if __name__ == '__main__':
     contrib_data, contrib_time = perf_counter(graph_repos_stars, 'repos', ['OWNER', 'COLLABORATOR', 'ORGANIZATION_MEMBER'])
     follower_data, follower_time = perf_counter(follower_getter, USER_NAME)
 
-    if OWNER_ID == {'id': 'MDQ6VXNlcjU3MzMxMTM0'}:
-        archived_data = add_archive()
-        for index in range(len(total_loc)-1):
-            total_loc[index] += archived_data[index]
-        contrib_data += archived_data[-1]
-        commit_data += int(archived_data[-2])
+
 
     for index in range(len(total_loc)-1): total_loc[index] = '{:,}'.format(total_loc[index])
 
